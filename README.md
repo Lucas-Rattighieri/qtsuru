@@ -1,6 +1,6 @@
-# QSim
+# Q-Tsuru
 
-QSim is a library for simulating quantum circuits and algorithms using PyTorch. Quantum states are represented as vectors (tensors), and all operations are applied directly on these vectors, ensuring efficiency for multi-qubit systems.
+Q-Tsuru is a library for simulating quantum circuits and algorithms using PyTorch. Quantum states are represented as vectors (tensors), and all operations are applied directly on these vectors, ensuring efficiency for multi-qubit systems.
 
 ---
 
@@ -44,6 +44,7 @@ Feedback-based Quantum Algorithms.
 | `mdfalqon`     |FALQON for multiple driver Hamiltonians [(MD-FALQON)](https://journals.aps.org/pra/abstract/10.1103/PhysRevA.106.062414)|
 | `sofalqon`   | Second Order FALQON [(SO-FALQON)](https://doi.org/10.1103/PhysRevResearch.7.013035)|
 | `trfalqon`   | Time-Rescaled FALQON [(TR-FALQON)](https://doi.org/10.48550/arXiv.2504.01256)|
+
 
 
 
