@@ -144,11 +144,6 @@ def sofalqon(
 
         beta2 = - (A + time_step * C) / (2 * time_step * torch.abs(B))
 
-        if hybrid_approach:
-            beta = beta2 if torch.abs(beta1) > torch.abs(beta2) else beta1
-        else:
-            # beta2 = - (A + time_step * C) / (2 * time_step * (B**2+1)**(0.5))
-            beta = beta2 
 
         if return_data:
             # optional fidelities: |<basis_states|psi>|^2
@@ -160,6 +155,13 @@ def sofalqon(
             if print_interval and layer % print_interval == 0:
                 print(f"Layer {layer}, E = {energy.real}")
 
+        
+        if hybrid_approach:
+            beta = beta2 if torch.abs(beta1) > torch.abs(beta2) else beta1
+        else:
+            # beta2 = - (A + time_step * C) / (2 * time_step * (B**2+1)**(0.5))
+            beta = beta2 
+        
     # Return
     if return_data:
         if track_fidelities is not None:
