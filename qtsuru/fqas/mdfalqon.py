@@ -109,16 +109,6 @@ def mdfalqon(
         # Hp |psi>
         problem_hamiltonian.hamiltonian(final_state, out=work_buffer1)
 
-        for d in range(n_drivers):
-
-            # Hd Hp |psi>
-            driver_hamiltonians[d].hamiltonian(work_buffer1, out=work_buffer2)
-
-            # <psi| Hd Hp |psi>
-            PsiHdHpPsi = torch.vdot(final_state, work_buffer2)
-
-            # Beta calculation: -<psi| i[Hd, Hp] |psi>
-            beta[d] = -1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi))
 
         if return_data:
             # Expected energy: <psi| Hp |psi>
@@ -133,6 +123,19 @@ def mdfalqon(
 
             if print_interval and layer % print_interval == 0:
                 print(f"Layer {layer}, E = {energy.real}")
+
+
+        for d in range(n_drivers):
+
+            # Hd Hp |psi>
+            driver_hamiltonians[d].hamiltonian(work_buffer1, out=work_buffer2)
+
+            # <psi| Hd Hp |psi>
+            PsiHdHpPsi = torch.vdot(final_state, work_buffer2)
+
+            # Beta calculation: -<psi| i[Hd, Hp] |psi>
+            beta[d] = -1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi))
+            
 
     manager.release(work_buffer1)
     manager.release(work_buffer2)
