@@ -114,7 +114,7 @@ def trfalqon(
         # f'(layer * Delta t) 
         df_tau = time_rescaling_derivative(time_step * (layer+1), *args_derivative)
 
-        # A calculation: -<psi| i[Hd, Hp] |psi>
+        # A calculation: <psi| i[Hd, Hp] |psi>
         A = 1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi))
         
 
