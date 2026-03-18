@@ -114,8 +114,9 @@ def trfalqon(
         # f'(layer * Delta t) 
         df_tau = time_rescaling_derivative(time_step * (layer+1), *args_derivative)
 
-        # Beta calculation: -<psi| i[Hd, Hp] |psi> / (f'_layer)
-        beta = -1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi)) / df_tau
+        # A calculation: -<psi| i[Hd, Hp] |psi>
+        A = 1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi))
+        
 
         if return_data:
             # Expected energy: <psi| Hp |psi>
@@ -130,7 +131,10 @@ def trfalqon(
 
             if print_interval and layer % print_interval == 0:
                 print(f"Layer {layer}, E = {energy.real}")
-
+                
+        # beta calculation: -A / df_tau        
+        beta = - A / df_tau
+        
     # Return
     if return_data:
         if track_fidelities is not None:
