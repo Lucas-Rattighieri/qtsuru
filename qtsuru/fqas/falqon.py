@@ -95,9 +95,7 @@ def falqon(
         # <psi| Hd Hp |psi>
         PsiHdHpPsi = torch.vdot(final_state, work_buffer2)
 
-        # Beta calculation: -<psi| i[Hd, Hp] |psi>
-        beta = -1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi))
-
+       
         if return_data:
             # Expected energy: <psi| Hp |psi>
             energy = torch.vdot(final_state, work_buffer1)
@@ -111,6 +109,9 @@ def falqon(
 
             if print_interval and layer % print_interval == 0:
                 print(f"Layer {layer}, E = {energy.real}")
+
+        # Beta calculation: -<psi| i[Hd, Hp] |psi>
+        beta = -1j * (PsiHdHpPsi - torch.conj(PsiHdHpPsi))
     
     manager.release(work_buffer1)
     manager.release(work_buffer2)
