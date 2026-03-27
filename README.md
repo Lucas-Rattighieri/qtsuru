@@ -1,3 +1,11 @@
+
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="logo_dark.svg">
+  <img src="logo_light.svg" alt="qtsuru logo">
+</picture>
+
+---
 # Q-Tsuru
 
 Quantum-Tsuru is a library for simulating quantum circuits and algorithms using PyTorch. Quantum states are represented as vectors (tensors), and all operations are applied directly on these vectors, ensuring efficiency for multi-qubit systems.
