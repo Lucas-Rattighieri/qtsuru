@@ -27,7 +27,7 @@ class BitOps:
             return torch.int64
 
 
-    def set_bits(self, num, bits, out=None):
+    def set_bits(self, num, bits, mask=None, out=None):
         """
         Sets one or more bits to 1 in an integer or each element of a tensor.
 
@@ -42,12 +42,15 @@ class BitOps:
                 - If `num` is a tensor, returns `out` containing the modified values.
         """
 
-        if isinstance(bits, int):
-            mask = 1 << bits
+        if mask is None:
+            if isinstance(bits, int):
+                mask = 1 << bits
+            else:
+                mask = 0
+                for bit in bits:
+                    mask |= 1 << bit
         else:
-            mask = 0
-            for bit in bits:
-                mask |= 1 << bit
+            mask = int(mask)
 
 
         if isinstance(num, int):
@@ -64,7 +67,7 @@ class BitOps:
         return out
 
 
-    def clear_bits(self, num, bits, out=None):
+    def clear_bits(self, num, bits, mask=None, out=None):
         """
         Clears (sets to 0) one or more bits in an integer or each element of a tensor.
 
@@ -79,13 +82,17 @@ class BitOps:
                 - If `num` is a tensor, returns `out` containing the modified values.
         """
 
-        if isinstance(bits, int):
-            mask = ~(1 << bits)
+        if mask is None:
+            if isinstance(bits, int):
+                mask = ~(1 << bits)
+            else:
+                mask = 0
+                for bit in bits:
+                    mask |= 1 << bit
+                mask = ~mask
         else:
-            mask = 0
-            for bit in bits:
-                mask |= 1 << bit
-            mask = ~mask
+            mask = int(mask)
+
 
         if isinstance(num, int):
             return num & mask
@@ -259,7 +266,7 @@ class BitOps:
         return out
 
 
-    def flip_bits(self, num, bits = None, out=None):
+    def flip_bits(self, num, bits = None, mask = None, out=None):
         """
         Flips (inverts) one or more bits in an integer or each element of a tensor.
         If `bits` is None, all bits are flipped.
@@ -277,14 +284,17 @@ class BitOps:
                 - If `num` is a tensor, returns `out` containing the modified values.
         """
 
-        if bits is None:
-            mask = (1 << self.L) - 1
-        elif isinstance(bits, int):
-            mask = 1 << bits
+        if mask is None:
+            if bits is None:
+                mask = (1 << self.L) - 1
+            elif isinstance(bits, int):
+                mask = 1 << bits
+            else:
+                mask = 0
+                for bit in bits:
+                    mask |= 1 << bit
         else:
-            mask = 0
-            for bit in bits:
-                mask |= 1 << bit
+            mask = int(mask)
 
 
         if isinstance(num, int):
