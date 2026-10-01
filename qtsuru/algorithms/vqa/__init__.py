@@ -1,1 +1,1 @@
-from qaoa import QAOA
+from .qaoa import QAOA
