@@ -1,1 +1,2 @@
-from . import fqas
+from . import fqa
+from . import vqa
