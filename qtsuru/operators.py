@@ -54,32 +54,30 @@ class Operators():
         return out
 
 
-    def Z(self, psi: torch.Tensor, qubits, out: torch.Tensor = None) -> torch.Tensor:
-        """
-        Applies the Pauli-Z gate to the quantum state vector `psi`.
+def Z(self, psi: torch.Tensor, qubits, out: torch.Tensor = None) -> torch.Tensor:
+    """
+    Applies the Pauli-Z gate to the specified qubits.
 
-        Parameters:
-            psi (torch.Tensor): Quantum state vector of shape (2**L,).
-            qubits (int or list[int]): Index or list of indices of qubits to apply the Z gate.
-            out (torch.Tensor, optional): Output tensor to store the result.
-                                          If not provided, a new tensor with the same shape as `psi` is created.
+    Parameters:
+        psi (torch.Tensor): Quantum state vector of shape (2**L,).
+        qubits (int or list[int]): Qubit indices.
+        out (torch.Tensor, optional): Output tensor.
 
-        Returns:
-            torch.Tensor: State vector after applying the Z gate(s).
-        """  
-        if out is None:
-            out = torch.empty_like(psi)
+    Returns:
+        torch.Tensor: State vector after applying the Z gate(s).
+    """
+    if out is None:
+        out = psi.clone()
+    elif out is not psi:
+        out.copy_(psi)
 
-        tmp = self.int_manager.get()
+    if isinstance(qubits, int):
+        qubits = [qubits]
 
-        self.bitops.xor_bits(self.indices, qubits, out=tmp)
+    for i in qubits:
+        out.reshape(2**(self.L - 1 - i), 2, -1)[:, 1, :].neg_()
 
-        torch.add(1, tmp, alpha= -2, out=tmp)
-
-        torch.mul(tmp, psi, out=out)
-
-        self.int_manager.release(tmp)
-        return out
+    return out
 
 
     def Y(self, psi: torch.Tensor, qubits, out: torch.Tensor = None) -> torch.Tensor:
