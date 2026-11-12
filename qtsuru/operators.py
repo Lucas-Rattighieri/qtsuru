@@ -54,30 +54,30 @@ class Operators():
         return out
 
 
-def Z(self, psi: torch.Tensor, qubits, out: torch.Tensor = None) -> torch.Tensor:
-    """
-    Applies the Pauli-Z gate to the specified qubits.
-
-    Parameters:
-        psi (torch.Tensor): Quantum state vector of shape (2**L,).
-        qubits (int or list[int]): Qubit indices.
-        out (torch.Tensor, optional): Output tensor.
-
-    Returns:
-        torch.Tensor: State vector after applying the Z gate(s).
-    """
-    if out is None:
-        out = psi.clone()
-    elif out is not psi:
-        out.copy_(psi)
-
-    if isinstance(qubits, int):
-        qubits = [qubits]
-
-    for i in qubits:
-        out.reshape(2**(self.L - 1 - i), 2, -1)[:, 1, :].neg_()
-
-    return out
+    def Z(self, psi: torch.Tensor, qubits, out: torch.Tensor = None) -> torch.Tensor:
+        """
+        Applies the Pauli-Z gate to the specified qubits.
+    
+        Parameters:
+            psi (torch.Tensor): Quantum state vector of shape (2**L,).
+            qubits (int or list[int]): Qubit indices.
+            out (torch.Tensor, optional): Output tensor.
+    
+        Returns:
+            torch.Tensor: State vector after applying the Z gate(s).
+        """
+        if out is None:
+            out = psi.clone()
+        elif out is not psi:
+            out.copy_(psi)
+    
+        if isinstance(qubits, int):
+            qubits = [qubits]
+    
+        for i in qubits:
+            out.reshape(2**(self.L - 1 - i), 2, -1)[:, 1, :].neg_()
+    
+        return out
 
 
     def Y(self, psi: torch.Tensor, qubits, out: torch.Tensor = None) -> torch.Tensor:
